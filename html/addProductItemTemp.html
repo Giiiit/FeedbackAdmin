@@ -1,0 +1,49 @@
+<div id="modal_addProduct">
+    <form>
+        <table>
+            <thead>
+
+            <div id="myModalLabel2">
+                <p>添加产品</p>
+            </div>
+
+            <!--<button type="button"-->
+            <!--style="color: #727e8a; margin-top: -10px;">-->
+            <div id="close_modal">
+                <a ng-click="close_modal()"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+            <!--</button>-->
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="tab_head"><b class="required">*&nbsp;</b>名称：</td>
+                    <td><input type="text" id="addProductName" ng-model="productCatalogName" ng-blur="addProName(productCatalogName)" placeholder="请输入产品名称"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head">负责人：</td>
+                    <td><input type="text" ng-model="productCatalogPrincipal" ng-blur="addProPrincipal(productCatalogPrincipal)" placeholder="请输入负责人"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head tab_describe">描述：</td>
+                    <td><textarea rows="3" class="text-describe" ng-model="productCatalogNote" ng-blur="addProNote(productCatalogNote)" placeholder="请输入描述"></textarea>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="warn-info tempWarn-info" ng-show="addRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</div>
+        <div class="warn-info tempWarn-info" ng-show="addNameTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 产品名称过长!</div>
+
+        <div class="warn-info tempWarn-info4" ng-show="addPrincipalTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 负责人名称过长!</div>
+        <div class="warn-info tempWarn-info3" ng-show="addNoteTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 描述过长!</div>
+
+        <!--<tr ng-show="addExist.show">-->
+        <!--<div class="warn-info tempWarn-info" ng-show="addExist.show"><i class="glyphicon glyphicon-warning-sign"></i> {{responseInfo}}</div>-->
+        <!--</tr>-->
+        <div class="addBtn">
+            <input type="submit" ng-click="add_product(productCatalogName,productCatalogNote,productCatalogPrincipal)" class="btn btn-info" value="保存"/>
+            <input type="submit" ng-click="close_modal()" class="btn btn-grey" value="取消"/>
+        </div>
+    </form>
+
+</div>

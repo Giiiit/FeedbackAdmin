@@ -1,0 +1,237 @@
+*{
+    padding: 0;
+    margin:0;
+}
+a{-webkit-transition:all 0.2s linear;-mos-transition:all 0.2s linear;-mz-transition:all 0.2s linear;-o-transition:all 0.2s linear;transition:all 0.2s linear;}
+a:hover{-webkit-transition:all 0.2s linear;-mos-transition:all 0.2s linear;-mz-transition:all 0.2s linear;-o-transition:all 0.2s linear;transition:all 0.2s linear;}
+#nav-content{
+    width: 1190px;
+    margin: 0 auto;
+}
+.navbar{
+    background-color: #1f8c94;
+    height: 45px;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+.navbar-header{
+    position: relative;
+    /*width: 330px;*/
+    top: 10px;
+    left: 20px;
+}
+.navbar-header a{
+    font-size: 20px;
+    color: #FFFFFF;
+}
+.navbar-brand{
+    height:45px;
+    padding: 0;
+}
+.navbar-nav{
+    /*width: 770px;*/
+    float: right;
+}
+.navbar-nav>li>a{
+    width: 125px;
+    height: 49px;
+    margin: 0 15px;
+    font-size: 18px;
+    padding: 13px 22px;
+    color: #ccc;
+    text-align: center;
+}
+.navbar-nav>li>a:hover{
+    background-color: #1f8c94;
+    color: #eee;
+}
+#thisclass{
+    background-color: #127e8b;
+    color: #FFFFFF;
+}
+
+.navbar-nav .logout{
+    margin-left: 530px;
+    cursor: pointer ;
+}
+.dropdown-right{
+    left: 90px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**********个人中心************/
+
+
+/*
+.my{width: 0;margin: 0 auto;}
+#nav-my{
+    !*padding-left: 210px;*!
+    background: #aaaaaa;
+    height: 45px;
+    position: relative;
+    z-index: 10;
+}
+#category .ld{
+    margin-left: 270px;
+    position: relative;
+    width: 130px;
+    height: 45px;
+    line-height: 45px;
+    background:#E43d59;
+    cursor: pointer;
+}
+#category .ld:hover{
+    background-color: #C8344F;
+}
+#category .ld span {
+    width: 130px;
+    height: 45px;
+    padding: 13px 22px 13px 23px;
+    color: #FFFFFF;
+}
+#category #allsort{
+    margin-left: 269px;
+    padding-top: 15px;
+    display:none;
+    width: 132px;
+    height: 167px;
+    position: absolute;
+    left: 0;
+    top: 44px;
+    border:1px solid #333;
+    border-top: none;
+    background-color: #fafafa;
+}
+#category #allsort .item{
+    width: 130px;
+    height: 34px;
+    float: left;
+}
+#category #allsort .item span{
+    height: 33px;
+    line-height: 33px;
+    width: 130px;
+    z-index: 30;
+
+    padding-left:15px;
+    margin-right:10px;
+    position:absolute;
+}
+#category #allsort .item span a{
+    color: #727e8a;
+    text-decoration: none;
+    font-size:16px;
+    cursor: pointer;
+}
+#category #allsort .item span:hover{
+    background-color: #333;
+}
+#category #allsort .item span:hover a{
+    color: #FFFFFF;
+}
+#category #allsort .item .i-mc{
+    display:none;
+    width: 430px;
+    !*height: 388px;*!
+    padding:10px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius: 5px 0 5px 5px;
+    position: absolute;
+    right: 130px;
+    top: 15px;
+    z-index: 25;
+    box-shadow: -1px 1px 1px 1px;
+}
+!*#category #allsort .on h3{*!
+    !*border:solid #ddd;*!
+    !*border-width:1px 0;*!
+    !*background: #fff;*!
+    !*z-index:40;*!
+!*}*!
+#category.on #allsort{
+    display: block;
+}
+#category.on #allsort .on .i-mc{
+    display: block;
+}
+.btn-logOut{
+    margin:8px auto 0;
+    width: 110px;
+    font-size: 16px;
+}
+#logOut{
+    text-align: center;
+    !*width: 140px;*!
+    !*height: 30px;*!
+    !*line-height: 30px;*!
+    !*background-color: #333;*!
+    !*margin-top: 10px;*!
+}
+.account-list{
+    !*background-color: #00c0ef;*!
+    width: 400px;
+    height: 65px;
+    border-bottom: 1px solid #d9e3ef;
+    padding: 0 10px;
+}
+!*.i-mc>div{*!
+    !*width: 300px;*!
+    !*height: 60px;*!
+!*}*!
+.add-card{
+    width: 150px;
+    margin: 20px 120px 10px;
+}
+.form2{
+    margin: 15px 0;
+    !*border-top: 1px solid #d9e3ed;*!
+    !*background-color: #f3f3f3;*!
+    !*border-radius: 0 0 5px 5px;*!
+}
+.btn-right{
+    float:right;
+    margin-left: 15px;
+    margin-right: 8px;
+}
+.btn-red{
+    background-color: #333;
+    color: #FFFFFF;
+}
+.btn-red:hover{
+    background-color: #C8344F;
+    color: #FFFFFF;
+}
+.bank_head{
+    text-align: right;
+    font-size: 16px;
+    height: 31px;
+    width: 120px;
+    margin-top: 7px;
+}
+.chase_head_left, .bank_body{
+    padding-top: 10px;
+}
+.bank_body>input{
+    width: 280px;
+}
+#ck_clear{
+    width: 14px;
+    height: 14px;
+}
+*/
+
+/******** 导航条 END ***********/

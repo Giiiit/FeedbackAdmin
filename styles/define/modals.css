@@ -1,0 +1,233 @@
+.modal-dialog {
+    margin-top: 150px;
+    width: 457px;
+}
+#modal_addSaleList, #modal_addContract{
+    width: 457px;
+    margin: 0 auto;
+}
+#myModalLabel, #myModalLabel2{
+    height:55px;
+    background-color: #1f8c94;
+    /*border-bottom: 1px solid #e5e5e5;*/
+    margin-bottom: 36px;
+    border-radius: 5px 5px 0 0;
+}
+#myModalLabel p, #myModalLabel2 p{
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+}
+span.glyphicon-remove{
+    cursor: pointer;
+}
+.addBtn{
+    height:46px;
+    border-top: none;
+    margin-top: 34px;
+    border-radius: 0 0 5px 5px;
+}
+.addBtn .btn{
+    margin-top: 8px;
+    margin-right: 24px;
+    padding-top: 5px;
+    width: 103px;
+    height:32px;
+    float: right;
+    /*font-size: 18px;*/
+    border-radius: 2px;
+    color: #FFFFFF;
+}
+.addBtn .btn:focus{
+    outline: none;
+}
+.addBtn .btn-right{
+    background-color: #e43c59;
+}
+.addBtn #btn-left{
+    margin-top: 5px;
+    margin-left: 26px;
+    padding-top: 2px;
+    width: 92px;
+    height:26px;
+    float: left;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #449d44;
+    color: #FFFFFF;
+}
+.addBtn #btn-left2{
+    margin-top: 5px;
+    margin-left: 26px;
+    padding-top: 2px;
+    width: 92px;
+    height:26px;
+    float: left;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #449d44;
+    color: #FFFFFF;
+}
+#close_modal, #close_modal2{
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+#close_modal a span, #close_modal2 a span{
+    color: #FFFFFF;
+}
+#close_modal a span:hover, #close_modal2 a span:hover{
+    color: #ccc;
+}
+tbody{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+tbody tr{
+    /*margin-bottom: 22px;*/
+    height: 54px;
+}
+tbody tr td input, tbody tr td select{
+    width: 302px;
+    line-height: 31px;
+    height: 31px;
+    font-size: 14px;
+    border:1px solid #ccc;
+    border-radius: 4px;
+    padding:0 17px;
+}
+tbody tr td.tab_head{
+    text-align: right;
+    font-size: 14px;
+    height: 14px;
+    line-height: 14px;
+    width: 110px;
+    margin: 7px 29px;
+    /*margin-bottom: 22px;*/
+    /*padding-top: 0;*/
+}
+tbody tr td.tab_describe{
+    vertical-align: top;
+    padding-top: 20px;
+}
+tbody tr td.tab_check{
+    text-align: right;
+    font-size: 16px;
+    height: 31px;
+    width: 300px;
+    margin-bottom: 7px;
+    padding-top: 0;
+}
+tbody tr td.tab_info{
+    text-align: center;
+    font-size: 16px;
+    height: 16px;
+    line-height: 16px;
+    width: 455px;
+}
+tbody tr td.tab_time{
+    text-align: center;
+    font-size: 14px;
+    color: #FF7300;
+    height: 14px;
+    line-height: 14px;
+    width: 455px;
+}
+tbody tr td>textarea{
+    width: 302px;
+    padding: 0 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 11px;
+    resize: none;
+}
+.tab_content{
+    font-size: 16px;
+    padding-left: 17px;
+}
+/*.ck_right{*/
+/*float: right;*/
+/*}*/
+.ck_left{
+    float: left;
+    padding-left: 17px;
+}
+.ck_td{
+    /*padding-right: 300px;*/
+    padding-left: 17px;
+    font-size: 16px;
+}
+.tdName{
+    width:120px;
+    text-align: right;
+}
+.tdValue{
+    width: 475px;
+    text-align: left;
+}
+
+.addMoney_table{width:500px;margin: 10px auto 0;}
+.addMoney_table tr{height:26px;}
+.addMoney_table tr td{font-size: 16px;}
+.addMoney_table_content_up{border-top: 1px solid #d9e3ed;}
+.addMoney_table_content_down td span{margin-left:22%}
+.addMoney_table_content_up,.addMoney_table_content_down{height:35px;/*width:500px;margin: 0 10px;*/}
+
+.addMoney_table_content_up td>span{
+    color: #e43c59;
+}
+/*.addMoney_time{*/
+    /*color: #b4bdcc;*/
+/*}*/
+.chase_table{
+    /*border-top: 1px solid #d9e3ed;*/
+    background-color: #f3f3f3;
+}
+.chase_head{
+    text-align: right;
+    font-size: 16px;
+    height: 31px;
+    width: 85px;
+    margin-top: 7px;
+}
+.chase_head_left, .chase_body{
+    padding-top: 10px;
+}
+.form1{
+    margin-top: 15px;
+    border-top: 1px solid #d9e3ed;
+    background-color: #f3f3f3;
+    border-radius: 0 0 5px 5px;
+}
+.btn-confirm, .btn-cancel{
+    width: 160px;
+    height: 40px;
+    margin: 0 33px 33px 33px;
+}
+.btn-grey{
+    background-color: #ccc;
+    border-color: #ccc;
+}
+.required{
+    color: red;
+}
+.tempWarn-info{
+    float: left;
+    margin-left: 120px;
+    margin-top: -185px;
+}
+.tempWarn-info2{
+    float: left;
+    margin-left: 120px;
+}
+.tempWarn-info3{
+    float: left;
+    margin-left: 120px;
+    margin-top: -15px;
+}
+.tempWarn-info4{
+    float: left;
+    margin-left: 120px;
+    margin-top: -130px;
+}

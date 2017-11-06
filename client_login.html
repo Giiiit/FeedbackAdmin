@@ -1,0 +1,47 @@
+<div id="loginBox" class="panel panel-default box-input-50x center-block" login-box>
+    <table width="100%" border="0">
+        <!--<tr><td height="40px"></td></tr>-->
+        <tr align="center">
+            <div class="form-top">
+                <div class="form-top-center">
+                    <h3>客户问题反馈平台</h3>
+                </div>
+            </div>
+        </tr>
+        <!--<tr><td height="40px"></td></tr>-->
+        <tr>
+            <td height="60px" align="center">
+                <div class="input-group box-input-28x">
+                    <span class="input-group-addon box-input-4x" id="sizing-username"><i class="glyphicon glyphicon-user"></i></span>
+                    <input type="text" id="uName" ng-model="username" class="form-control" placeholder="请输入登录账号" required="required" aria-describedby="sizing-username" ng-maxlength="64">
+                </div>
+                <div class="warn-info loginWarn-info" ng-show="usernameNull.show"><i class="glyphicon glyphicon-warning-sign"></i> 账号名不能为空!</div>
+            </td>
+        </tr>
+        <tr>
+            <td height="60px" align="center">
+                <div class="input-group box-input-28x">
+                    <span class="input-group-addon box-input-4x" id="sizing-password"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input type="password" id="uPass" ng-model="password" class="form-control" placeholder="请输入密码" required="required" aria-describedby="sizing-password" ng-maxlength="32">
+                </div>
+                <div class="warn-info loginWarn-info" ng-show="passwordNull.show"><i class="glyphicon glyphicon-warning-sign"></i> 密码不能为空!</div>
+            </td>
+        </tr>
+        <tr>
+            <td height="60px" align="center">
+                <div class="input-group box-input-28x">
+                    <input type="submit" class="btn btn-success btn-block" id="input1"
+                           ng-click="login( username, password )" value="登录"/>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td height="40px" ng-show="loginAlert.show">
+                <i class="glyphicon glyphicon-alert warn-info"></i>&nbsp;<b class="warn-info" ng-bind="logInfo"></b>
+            </td>
+            <td height="40px" ng-show="tooLong.show">
+                <p class="warn-info"><i class="glyphicon glyphicon-warning-sign"></i> 输入账号或密码过长！</p>
+            </td>
+        </tr>
+    </table>
+</div>

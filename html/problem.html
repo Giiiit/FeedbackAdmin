@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../styles/lib/bootstrap.css"/>
+    <link rel="stylesheet" href="../styles/define/index.css"/>
+    <link rel="stylesheet" href="../styles/define/modals.css"/>
+    <link rel="stylesheet" href="../styles/define/main.css"/>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+
+    <script src="../js/lib/angular.js"></script>
+    <script src="../js/lib/angular-ui-router.min.js"></script>
+    <script src="../js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../js/lib/angular-cookies.js"></script>
+    <!--<script src="../js/lib/bootstrap-dropdown.js"></script>-->
+    <script src="../js/lib/jquery.min.js"></script>
+    <script src="../js/lib/bootstrap-wysiwyg.js"></script>
+
+    <script src="../js/controllers/index.js"></script>
+    <script src="../js/controllers/main.js"></script>
+    <script src="../js/controllers/problem.js"></script>
+
+    <script src="../js/service/configure.js"></script>
+    <script src="../js/service/product.js"></script>
+    <script src="../js/service/customer.js"></script>
+    <script src="../js/service/login.js"></script>
+    <script src="../js/service/account.js"></script>
+    <script src="../js/service/problem.js"></script>
+    <title>客户问题反馈平台</title>
+</head>
+<body ng-app="problem" ng-controller="problemController">
+<nav class="navbar" role="navigation">
+    <div id="nav-content">
+        <div class="navbar-header col-sm-7">
+            <a id="admin_logo" href="javascript:void(0)" class="navbar-brand "></a>
+        </div>
+        <div class=" col-sm-5">
+            <ul class="nav navbar-nav">
+                <li id="myCenter" ng-mouseenter="logOutToggle()" ng-mouseleave="logOutToggle2()">
+                    <a ng-click="toMyCenter()" class="pointer" title="{{username}}"><i ng-bind="username"></i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="logOutPanel.show" ng-mouseleave="logOutToggle2()">
+                        <li><a ng-click="logOut()">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="admin-list-section">
+
+        <div id="add_problem" class="container-fluid" ng-show="publishNew.show">
+
+            <!--发问题顶部-->
+            <div class="table-head table-head-problem" style="padding-top: 15px">
+                <div class="add_problem" ng-click="toProblemList()">
+                    <a><strong class="glyphicon glyphicon-arrow-left"></strong> 返回</a>
+                </div>
+                <!--<div class="refresh_problem" ng-click="refreshProduct()">
+                    <a><strong class="glyphicon glyphicon-refresh"></strong> 刷新</a>
+                </div>-->
+            </div>
+
+            <table class="new-problem">
+                <thead>
+                <tr>
+                    <td class="col-sm-1"><label for="titleP">标题：</label></td>
+                    <td class="col-sm-11" colspan="2">
+                        <input type="text" id="titleP" placeholder="请输入标题…" ng-model="newTitle"/>
+                    </td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="border-right: 1px solid #cccccc">
+                    <td class="col-sm-1"><label for="contentP">内容：</label></td>
+                    <td class="col-sm-10">
+                        <textarea rows="5" id="contentP" ng-model="newContent" placeholder="请输入内容…"></textarea>
+                    </td>
+                    <td class="col-sm-1">
+                        <input type="button" class="submitBtn" value="发布" ng-click="publish(newTitle,newContent)"/>
+                        <input type="button" class="cancelBtn" value="取消" ng-click="toProblemList()"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="table-foot"></div>
+        </div>
+
+        <div id="reply_problem" class="container-fluid" ng-hide="publishNew.show">
+
+            <!--回复问题顶部-->
+            <table class="reply-item" style="margin-top: 20px">
+                <tr>
+                    <td class="reply-title" ng-bind="proTitle"></td>
+                </tr>
+            </table>
+            <table class="reply-item" style="border-top: none">
+                <tr>
+                    <td rowspan="2" class="reply-name" ng-bind="createUName"></td>
+                    <td class="reply-content">
+                        {{proContent}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="reply-time" ng-bind="createUDate"></td>
+                </tr>
+            </table>
+            <table class="reply-item" style="border-top: none" ng-repeat="item in reply_list" ng-show="problemReplytList.show">
+                <tr>
+                    <td rowspan="2" class="reply-name" ng-bind="item.createUserName"></td>
+                    <td class="reply-content">
+                        {{item.replyContent}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="reply-time" ng-bind="item.createDate"></td>
+                </tr>
+            </table>
+
+            <table class="new-problem">
+                <thead>
+                <tr>
+                    <td class="col-sm-1">
+                    </td>
+                    <td class="col-sm-11" colspan="2" align="left">
+                        <p><strong>发表回复</strong></p>
+                    </td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="border-right: 1px solid #cccccc">
+                    <td class="col-sm-1"></td>
+                    <td class="col-sm-10">
+                        <textarea rows="5" id="contentP2" ng-model="replyContent" placeholder="请输入内容…"></textarea>
+                    </td>
+                    <td class="col-sm-1">
+                        <input type="button" class="submitBtn" value="回复" ng-click="publishReply(replyContent)"/>
+                        <input type="button" class="cancelBtn" value="取消" ng-click="toProblemList()"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="table-foot"></div>
+        </div>
+    </div>
+
+</section>
+<script type="text/javascript">
+    $('#editor').wysiwyg();
+</script>
+</body>
+</html>

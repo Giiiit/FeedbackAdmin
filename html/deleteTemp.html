@@ -1,0 +1,57 @@
+<div id="modal_addFollowStatus">
+    <form  ng-hide="deleteSuccess.show">
+        <table>
+            <thead>
+
+                <div id="myModalLabel2">
+                    <p>确认提示</p>
+                </div>
+
+                <div id="close_modal">
+                    <a ng-click="close_modal()"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td class="tab_info">确定删除？</td>
+
+            </tr>
+            </tbody>
+
+        </table>
+        <div class="addBtn">
+            <input type="submit" ng-click="deleteFun()" class="btn btn-info" value="确定"/>
+            <input type="submit" ng-click="close_modal()" class="btn btn-grey" value="取消"/>
+        </div>
+    </form>
+    <form  ng-show="deleteSuccess.show">
+        <table>
+            <thead>
+
+                <div id="myModalLabel">
+                    <p>信息提示</p>
+                </div>
+
+                <div id="close_modal2">
+                    <a ng-click="close_modal()"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tab_info">删除成功！</td>
+
+            </tr>
+            <tr>
+                <td class="tab_time">( 1秒后关闭 )</td>
+
+            </tr>
+            </tbody>
+
+        </table>
+        <div class="addBtn">
+            <input type="submit" ng-click="close_modal()" class="btn btn-info" value="关闭"/>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../styles/lib/bootstrap.css"/>
+    <link rel="stylesheet" href="../styles/define/index.css"/>
+    <link rel="stylesheet" href="../styles/define/modals.css"/>
+    <link rel="stylesheet" href="../styles/define/main.css"/>
+
+    <script src="../js/lib/angular.js"></script>
+    <script src="../js/lib/angular-ui-router.min.js"></script>
+    <script src="../js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../js/lib/angular-cookies.js"></script>
+    <script src="../js/lib/bootstrap-dropdown.js"></script>
+    <script src="../js/lib/tm.pagination.js"></script>
+
+    <script src="../js/controllers/index.js"></script>
+    <script src="../js/controllers/main.js"></script>
+
+    <script src="../js/service/configure.js"></script>
+    <script src="../js/service/product.js"></script>
+    <script src="../js/service/customer.js"></script>
+    <script src="../js/service/login.js"></script>
+    <script src="../js/service/account.js"></script>
+    <script src="../js/service/problem.js"></script>
+    <title>客户问题反馈平台</title>
+</head>
+<body ng-app="main" ng-controller="mainController">
+<nav class="navbar" role="navigation">
+    <div id="nav-content">
+        <div class="navbar-header col-sm-5">
+            <a id="admin_logo" href="javascript:void(0)" class="navbar-brand "></a>
+        </div>
+        <div class=" col-sm-7">
+            <ul class="nav navbar-nav">
+                <li id="myCenter" ng-mouseenter="logOutToggle()" ng-mouseleave="logOutToggle2()">
+                    <a ng-click="toMyCenter()" class="pointer" title="{{username}}"><i ng-bind="username"></i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="logOutPanel.show" ng-mouseleave="logOutToggle2()">
+                        <li><a ng-click="logOut()">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="admin-list-section"  ng-hide="productListPage.show">
+
+        <div id="product_list" class="container-fluid">
+
+            <!-- 问题顶部 -->
+            <div class="table-head table-head-problem">
+                <div class="add_problem" ng-click="addProblem()" style="margin-bottom: 20px">
+                    <a><strong class="glyphicon glyphicon-plus"></strong> 发问题</a>
+                </div>
+                <div class="refresh_problem" ng-click="refreshProblem()">
+                    <a><strong class="glyphicon glyphicon-refresh"></strong> 刷新</a>
+                </div>
+            </div>
+            <div id="choose-bar" class="select-head">
+                <div class="choose-title">
+                    <p>筛选：</p>
+                </div>
+                <div class="choose">
+                    <select class="form-control" ng-change="change(y.tpType)" ng-model="y.tpType">
+                        <option selected value="">选类型</option>
+                        <option ng-repeat="y in type" value="{{y.tpType}}" ng-bind="y.tpValue"></option>
+                    </select>
+                </div>
+                <div class="choose" ng-show="isProblem.show">
+                    <select class="form-control" ng-model="x.stId">
+                        <option selected value="">选状态</option>
+                        <option ng-repeat="x in state" value="{{x.stId}}" ng-bind="x.stValue"></option>
+                    </select>
+                </div>
+                <div class="choose" ng-show="isSales.show">
+                    <select class="form-control" id="selectCustomer" ng-model="item.customerId">
+                        <option selected value="">选客户</option>
+                        <option ng-repeat="item in cus_list" value="{{item.customerId}}" ng-bind="item.customerName"></option>
+                    </select>
+                </div>
+                <div class="choose" ng-show="isSales.show" ng-model="item.productCatalogId">
+                    <select class="form-control" id="selectProduct" ng-model="item.productCatalogId">
+                        <option selected value="">选产品</option>
+                        <option ng-repeat="item in product_list" value="{{item.productCatalogId}}" ng-bind="item.productCatalogName"></option>
+                    </select>
+                </div>
+                <div class="choose" style="width: 52px">
+                    <input type="button" class="choose-confirm" ng-click="chooseProblemList(x.stId,y.tpType,item.customerId,item.productCatalogId)" value="确定"/>
+                </div>
+                <!--<div style="display: block">
+                    <p id="totalItem" ng-bind="dl"></p>
+                </div>-->
+                <div>
+
+                    <tm-pagination conf="paginationConf"></tm-pagination>
+                </div>
+            </div>
+
+             <!-- 问题列表 -->
+            <table class="admin_table">
+                <thead>
+                <tr>
+                    <th align="center" class="admin_table_leftTd">序号</th>
+                    <th align="center">创建时间</th>
+                    <th align="left">标题</th>
+                    <th >发起人</th>
+                    <th class="admin_table_rightTd">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="admin_list_table" ng-repeat="info in problem_list">
+                    <td width="3%" align="center" ng-bind="$index+1"></td>
+                    <td width="12%" align="center" ng-bind="info.createDate"></td>
+                    <td width="38%" align="left" ng-hide="isSales.show">
+                        <a ng-click="toDetail(info.problemId)" class="read{{info.customIsRead}}" ng-bind="info.problemTitle"></a><!-- for-客户 -->
+                    </td>
+                    <td width="38%" align="left" ng-show="isSales.show">
+                        <a ng-click="toDetail(info.problemId)" class="read{{info.afterSalesIsRead}}" ng-bind="info.problemTitle"></a><!-- for-售后 -->
+                    </td>
+                    <td width="12%" align="center" ng-bind="info.createUserName"></td>
+                    <td width="8%" align="center" class="admin_table_rightTd">
+                        <div>
+                            <a class="glyphicon glyphicon-trash" title="删除" ng-click="deletePro1(info.problemId)"></a>
+                            <select class="form-control" ng-change="changeState(info.problemId,info.problemState)" ng-model="info.problemState" style="float: left;width: 70px;height: 22px;margin: 5px;padding: 0">
+                                <!--<option selected value="">{{info.problemState}}</option>-->
+                                <option ng-repeat="z in state2" value="{{z.stId2}}" ng-bind="z.stValue2"></option>
+                            </select>
+                            <!--<a  ng-bind="problemState1"></a>-->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-foot"></div>
+        </div>
+
+    </div>
+
+</section>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

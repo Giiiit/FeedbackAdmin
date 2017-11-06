@@ -1,0 +1,39 @@
+<div id="modal_addCustomer">
+    <form>
+        <table>
+            <thead>
+
+            <div id="myModalLabel2">
+                <p>添加产品</p>
+            </div>
+
+            <!--<button type="button"-->
+            <!--style="color: #727e8a; margin-top: -10px;">-->
+            <div id="close_modal">
+                <a ng-click="close_modal()"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+            <!--</button>-->
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td class="tab_head">名称：</td>
+                    <td><input type="text" required="required" ng-model="productCatalogName" placeholder="请输入产品名称"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head">描述：</td>
+                    <td><input type="text" required="required" ng-model="productCatalogNote" placeholder="请输入描述"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head">负责人：</td>
+                    <td><input type="text" required="required" ng-model="productCatalogPrincipal" placeholder="请输入负责人"></td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="addBtn">
+            <input type="submit" ng-click="add_product(productCatalogName,productCatalogNote,productCatalogPrincipal)" class="btn" value="保存"/>
+        </div>
+    </form>
+
+</div>

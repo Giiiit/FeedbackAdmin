@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../styles/lib/bootstrap.css"/>
+    <link rel="stylesheet" href="../styles/define/index.css"/>
+    <link rel="stylesheet" href="../styles/define/modals.css"/>
+
+    <script src="../js/lib/angular.js"></script>
+    <script src="../js/lib/angular-ui-router.min.js"></script>
+    <script src="../js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../js/lib/angular-cookies.js"></script>
+    <script src="../js/lib/bootstrap-dropdown.js"></script>
+
+    <script src="../js/controllers/index.js"></script>
+    <script src="../js/controllers/admin_adm_account.js"></script>
+
+    <script src="../js/service/configure.js"></script>
+    <script src="../js/service/product.js"></script>
+    <script src="../js/service/login.js"></script>
+    <script src="../js/service/account.js"></script>
+    <title>客户问题反馈平台</title>
+</head>
+<body ng-app="adminUserAccount" ng-controller="adminUserAccountController">
+<nav class="navbar" role="navigation">
+    <div id="nav-content">
+        <div class="navbar-header col-sm-5">
+            <a id="admin_logo" href="javascript:void(0)" class="navbar-brand ">客户问题反馈平台（管理员入口）</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav col-sm-7">
+                <li><a href="product_manage.html">产品</a></li>
+                <li><a href="customer_manage.html">客户管理</a></li>
+                <li class="" ng-mouseenter="accManageToggle()" ng-mouseleave="accManageToggle2()">
+                    <a ng-click="toAdmAccount()" id="thisclass" class="pointer"><i>售后账户</i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="accManage.show" ng-mouseleave="accManageToggle2()">
+                        <li ng-click="toCusAccount()"><a>客户账户</a></li>
+                        <!--<li ng-click="toAdmAccount()"><a>售后账户</a></li>-->
+                    </ul>
+                </li>
+                <li id="myCenter" ng-mouseenter="logOutToggle()" ng-mouseleave="logOutToggle2()">
+                    <a ng-click="toMyCenter()" class="pointer" title="{{username}}"><i ng-bind="username"></i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="logOutPanel.show" ng-mouseleave="logOutToggle2()">
+                        <li><a ng-click="logOut()">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="admin-list-section"  ng-hide="editAdmAccList.show" ng-show="addAdmAccList.show">
+
+        <div id="product_list" class="container-fluid">
+
+            <!--产品页顶部-->
+            <div class="table-head">
+                <div class="add_product" ng-click="addAdmAccountShow()">
+                    <a><strong class="glyphicon glyphicon-plus"></strong> 新增</a>
+                </div>
+                <div class="refresh_product" ng-click="refreshProduct()">
+                    <a><strong class="glyphicon glyphicon-refresh"></strong> 刷新</a>
+                </div>
+            </div>
+
+            <!--产品页列表-->
+            <table class="admin_table">
+                <thead>
+                <tr>
+                    <th width="5%" align="center">序号</th>
+                    <th width="12%" align="left">账户编号</th>
+                    <th width="12%" align="left">账户名称</th>
+                    <th width="12%">电话</th>
+                    <th width="12%">邮箱</th>
+                    <th width="18%">地址</th>
+                    <th width="10%">启用</th>
+                    <th width="6%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="admin_list_table" ng-repeat="info in admAcc_list">
+                    <td align="center" ng-bind="$index+1"></td>
+                    <td align="left" ng-bind="info.userCode" title="{{info.userCode}}"></td>
+                    <td align="left"  ng-bind="info.userName" title="{{info.userName}}"></td>
+                    <td align="left" ng-bind="info.userPhone" title="{{info.userPhone}}"></td>
+                    <td align="left" ng-bind="info.userEmail" title="{{info.userEmail}}"></td>
+                    <td align="left" ng-bind="info.userAddress" title="{{info.userAddress}}"></td>
+                    <td align="center">
+                        <div class="switch">
+                            <input type="radio" id="{{info.userId}}" class="switch-input" name="{{info.userId}}" value="1" ng-click="activeOff(info.userId,info.active)"/>
+                            <label for="{{info.userId}}"  class="switch-label switch-label-off">关</label>
+
+                            <input type="radio" id="{{info.userCode}}" class="switch-input" name="{{info.userId}}" value="0" ng-checked="info.active" ng-click="activeOn(info.userId,info.active)"/>
+                            <label for="{{info.userCode}}" class="switch-label switch-label-on">开</label>
+                            <span class="switch-selection"></span>
+                        </div>
+                    </td>
+                    <td align="center">
+                        <div>
+                            <a class="glyphicon glyphicon-edit" title="编辑" ng-click="editAdmAccSaveShow(info.userId)"></a>&nbsp;&nbsp;&nbsp;
+                            <a class="glyphicon glyphicon-trash" title="删除" ng-click="deletePro1(info.userId)"></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-foot">
+                <uib-pagination total-items="itemLength" ng-model="pageIndex" ng-change="DoCtrlPagingAct(pageIndex,perItems.item)" max-size="5" items-per-page="{{perItems.item}}" first-text="第一页" previous-text="上一页" next-text="下一页" last-text="最后页" boundary-links="true" boundary-link-numbers="true" rotate="true" force-ellipses="true"></uib-pagination>
+                <select id="pageSel" ng-model="perItems.item" ng-change="changeItemsPerPage(perItems.item)" disabled>
+                    <option ng-repeat="p in perItems" value="{{p.item}}" ng-bind="p.item"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--客户账号页编辑-->
+    <div  class="edit_admin_section"  ng-show="editAdmAccList.show">
+        <form class="form-horizontal" role="form" id="editCustomerItem">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <div class="add_product" style="margin: 0" ng-click="editAdmAccountHide()">
+                        <a><strong class="glyphicon glyphicon-arrow-left"></strong> 返回</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>编辑 - 售后账户</strong>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editAdmCode" class="col-sm-4 control-label"><b class="required">*&nbsp;</b>账户编号：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="editAdmCode" ng-blur="editCusName(admCode)" ng-model="admCode" placeholder="请输入账户编号" style="float: left"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addCodeRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                <p class="warn-info col-sm-4" ng-show="alphaDigit.show"><i class="glyphicon glyphicon-warning-sign"></i> 只允许数字、字母!</p>
+                <p class="warn-info col-sm-4" ng-show="codeTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 编号过长!</p>
+            </div>
+            <div class="form-group">
+                <label for="editAdmName" class="col-sm-4 control-label"><b class="required">*&nbsp;</b>账户名称：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="editAdmName" ng-blur="editCusSmpName(admName)" ng-model="admName" placeholder="请输入账户名称" style="float: left"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addNameRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                <p class="warn-info col-sm-4" ng-show="nameTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 名称过长!</p>
+            </div>
+
+            <div class="form-group">
+                <label for="editAdmPhone" class="col-sm-4 control-label">手机：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="editAdmPhone" ng-blur="editCusPhone(admPhone)" ng-model="admPhone" placeholder="请输入手机号码"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addPhone.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+            </div>
+            <div class="form-group">
+                <label for="editAdmEmail" class="col-sm-4 control-label">邮箱：</label>
+                <div class="col-sm-4">
+                    <input type="email" class="form-control" id="editAdmEmail" ng-blur="editCusEmail(admEmail)" ng-model="admEmail" placeholder="请输入邮箱"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addEmail.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+            </div>
+            <div class="form-group">
+                <label for="editAdmAddress" class="col-sm-4 control-label">地址：</label>
+                <div class="col-sm-6">
+                    <textarea rows="5" class="form-control text-describe" id="editAdmAddress" ng-blur="editCusAddr(admAddress)" ng-model="admAddress" placeholder="请输入地址"></textarea>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addAddr.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入过长!</p>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">启用账户：</label>
+                <div class="col-sm-4">
+                    <input type="radio" name="active" value="1" ng-model="admActive" id="active11"/>
+                    <label for="active11" class="col-sm-5 active">启用</label>
+
+
+                    <input type="radio" name="active" value="0"  ng-model="admActive" id="active12"/>
+                    <label for="active12" class="col-sm-5 active">停用</label>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addActiveRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label"></label>
+                <div class="col-sm-4">
+                    <input type="button" id="cancel2" class="form-control btn btn-grey" ng-click="editAdmAccountHide()" value="取消"/>
+                        <input type="button" id="save2" class="form-control btn btn-info" ng-click="editAdmAccSave(admCode,admName,admPhone,admEmail,admAddress,admActive)" value="保存"/>
+                    <!--<input id="save2" class="form-control btn btn-success" ng-click="editSave(productName,productPrincipal,productNote,productId)" value="保存"/>-->
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--客户账号页新增-->
+    <div  class="edit_admin_section"  ng-hide="addAdmAccList.show" id="addAdmin">
+        <form class="form-horizontal" role="form" id="addCustomerItem">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <div class="add_product" style="margin: 0" ng-click="addAdmAccountShow()">
+                        <a><strong class="glyphicon glyphicon-arrow-left"></strong> 返回</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>新增 - 售后账户</strong>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="addAdminCode" class="col-sm-4 control-label"><b class="required">*&nbsp;</b>账户编号：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="addAdminCode" ng-blur="addCusName(Code)" ng-model="Code" placeholder="请输入账户编号(字母、数字)"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addCodeRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                <p class="warn-info col-sm-4" ng-show="alphaDigit.show"><i class="glyphicon glyphicon-warning-sign"></i> 只允许数字、字母!</p>
+                <p class="warn-info col-sm-4" ng-show="codeTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 编号过长!</p>
+            </div>
+            <div class="form-group">
+                <label for="addAdminName" class="col-sm-4 control-label"><b class="required">*&nbsp;</b>账户名称：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="addAdminName" ng-blur="addCusSmpName(Name)" ng-model="Name" placeholder="请输入账户名称"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addNameRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                <p class="warn-info col-sm-4" ng-show="nameTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 名称过长!</p>
+            </div>
+            <div class="form-group">
+                <label for="addAdminPhone" class="col-sm-4 control-label">手机：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="addAdminPhone" ng-blur="addCusPhone(Phone)" ng-model="Phone" placeholder="请输入手机号码"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addPhone.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+            </div>
+            <div class="form-group">
+                <label for="addAdminEmail" class="col-sm-4 control-label">邮箱：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="addAdminEmail" ng-blur="addCusEmail(Email)" ng-model="Email" placeholder="请输入邮箱"/>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addEmail.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+            </div>
+            <div class="form-group">
+                <label for="addAdminAddress" class="col-sm-4 control-label">地址：</label>
+                <div class="col-sm-4">
+                    <textarea rows="5" class="form-control text-describe" id="addAdminAddress" ng-blur="addCusAddr(Address)" ng-model="Address" placeholder="请输入地址"></textarea>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addAddr.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入过长!</p>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label"><b class="required">*&nbsp;</b>启用账户：</label>
+                <div class="col-sm-4">
+                    <input type="radio" name="active" value="1" ng-model="Active" id="active1"/>
+                    <label for="active1" class="col-sm-5 active">启用</label>
+
+
+                    <input type="radio" name="active" value="0"  ng-model="Active" id="active2"/>
+                    <label for="active2" class="col-sm-5 active">停用</label>
+                </div>
+                <p class="warn-info col-sm-4" ng-show="addActiveRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-4 control-label"></label>
+                <div class="col-sm-4">
+                    <input type="button" id="cancel3" class="form-control btn btn-grey" ng-click="addAdmAccountShow()" value="取消"/>
+                    <input type="button" id="save3" class="form-control btn btn-info" ng-click="addAdmAccSave(Code,Name,Phone,Email,Address,Active)" value="保存"/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+</body>
+</html>

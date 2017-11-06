@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../styles/lib/bootstrap.css"/>
+    <link rel="stylesheet" href="../styles/define/index.css"/>
+    <link rel="stylesheet" href="../styles/define/modals.css"/>
+
+    <script src="../js/lib/angular.js"></script>
+    <script src="../js/lib/angular-ui-router.min.js"></script>
+    <script src="../js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../js/lib/angular-cookies.js"></script>
+    <!--<script src="../js/lib/tm.pagination.js"></script>-->
+    <script src="../js/lib/ngmodel.format.js"></script>
+
+    <script src="../js/controllers/index.js"></script>
+    <script src="../js/controllers/admin_cus_account.js"></script>
+
+    <script src="../js/service/configure.js"></script>
+    <script src="../js/service/product.js"></script>
+    <script src="../js/service/customer.js"></script>
+    <script src="../js/service/login.js"></script>
+    <script src="../js/service/account.js"></script>
+    <title>客户问题反馈平台</title>
+</head>
+<body ng-app="adminCusAccount" ng-controller="adminCusAccountController">
+<nav class="navbar" role="navigation">
+    <div id="nav-content">
+        <div class="navbar-header col-sm-5">
+            <a id="admin_logo" href="javascript:void(0)" class="navbar-brand "></a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav col-sm-7">
+                <li><a href="product_manage.html">产品</a></li>
+                <li><a href="customer_manage.html">客户管理</a></li>
+                <li class="" ng-mouseenter="accManageToggle()" ng-mouseleave="accManageToggle2()">
+                    <a ng-click="toCusAccount()" id="thisclass" class="pointer"><i>客户账户</i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="accManage.show" ng-mouseleave="accManageToggle2()">
+                        <!--<li ng-click="toCusAccount()"><a>客户账户</a></li>-->
+                        <li ng-click="toAdmAccount()"><a>售后账户</a></li>
+                    </ul>
+                </li>
+                <li id="myCenter" ng-mouseenter="logOutToggle()" ng-mouseleave="logOutToggle2()">
+                    <a ng-click="toMyCenter()" class="pointer" title="{{username}}"><i ng-bind="username"></i> <b class="caret"></b></a>
+                    <ul class="dropdown"  ng-show="logOutPanel.show" ng-mouseleave="logOutToggle2()">
+                        <li><a ng-click="logOut()">退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<section>
+    <div class="admin-list-section"  ng-hide="editCusAccList.show" ng-show="addCusAccList.show">
+
+        <div id="product_list" class="container-fluid">
+
+            <!--顶部-->
+            <div class="table-head">
+                <div class="add_product" ng-click="addCusAccountShow()">
+                    <a><strong class="glyphicon glyphicon-plus"></strong> 新增</a>
+                </div>
+                <div class="refresh_product" ng-click="refreshCusAcc()">
+                    <a><strong class="glyphicon glyphicon-refresh"></strong> 刷新</a>
+                </div>
+            </div>
+
+            <!--列表-->
+            <table class="admin_table">
+                <thead>
+                <tr>
+                    <th width="4%" align="center">序号</th>
+                    <th width="8%" align="left">账户编号</th>
+                    <th width="8%" align="left">账户名称</th>
+                    <th width="12%">电话</th>
+                    <th width="12%">邮箱</th>
+                    <th width="12%">地址</th>
+                    <th width="12%">客户</th>
+                    <th width="12%">产品</th>
+                    <th width="10%">启用</th>
+                    <th width="6%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr id="admin_list_table" ng-repeat="info in cusAcc_list">
+                    <td align="center" ng-bind="$index+1"></td>
+                    <td align="left" ng-bind="info.userCode" title="{{info.userCode}}"></td>
+                    <td align="left"  ng-bind="info.userName" title="{{info.userName}}"></td>
+                    <td align="left" ng-bind="info.userPhone" title="{{info.userPhone}}"></td>
+                    <td align="left" ng-bind="info.userEmail" title="{{info.userEmail}}"></td>
+                    <td align="left" ng-bind="info.userAddress" title="{{info.userAddress}}"></td>
+                    <td align="left" ng-bind="info.customerName" title="{{info.customerName}}"></td>
+                    <td align="left" ng-bind="info.productCatalogNameList" title="{{info.productCatalogNameList}}"></td>
+                    <td align="center">
+
+                        <div class="switch">
+                            <input type="radio" id="{{info.userId}}" class="switch-input" name="{{info.userId}}" ng-model="pageIndex" value="{{perItems.item}}" ng-click="activeOff(info.userId,info.active,pageIndex,perItems.item)"/>
+                            <label for="{{info.userId}}" class="switch-label switch-label-off">关</label>
+
+                            <input type="radio" id="{{info.userCode}}" class="switch-input" name="{{info.userId}}" ng-model="pageIndex" value="{{perItems.item}}" ng-checked="info.active" ng-click="activeOn(info.userId,info.active,pageIndex,perItems.item)"/>
+                            <label for="{{info.userCode}}" class="switch-label switch-label-on">开</label>
+                            <span class="switch-selection"></span>
+                        </div>
+
+                    </td>
+                    <td align="center">
+                        <div>
+                            <a class="glyphicon glyphicon-edit" title="编辑" ng-click="editCusAccountShow(info.userId)"></a>&nbsp;&nbsp;&nbsp;
+                            <a class="glyphicon glyphicon-trash" title="删除" ng-click="deleteCus(info.userId)"></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="table-foot">
+                <uib-pagination total-items="itemLength" ng-model="pageIndex" ng-change="DoCtrlPagingAct(pageIndex,perItems.item)" max-size="5" items-per-page="{{perItems.item}}" first-text="第一页" previous-text="上一页" next-text="下一页" last-text="最后页" boundary-links="true" boundary-link-numbers="true" rotate="true" force-ellipses="true"></uib-pagination>
+                <select id="pageSel" ng-model="perItems.item" ng-change="changeItemsPerPage(perItems.item)" disabled>
+                    <option ng-repeat="p in perItems" value="{{p.item}}" ng-bind="p.item"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!--客户账号页编辑-->
+    <div  class="edit_admin_section"  ng-show="editCusAccList.show">
+        <form class="form-horizontal" role="form" id="editCustomerItem">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <div class="add_product" style="margin: 0" ng-click="editCusAccountHide()">
+                        <a><strong class="glyphicon glyphicon-arrow-left"></strong> 返回</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>编辑 - 客户账户</strong>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="table-left col-sm-6">
+                <div class="form-group">
+                    <label for="editCusCode" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>账户编号：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="editCusCode" required ng-model="cusCode" ng-blur="editCusName(cusCode)" placeholder="请输入账户编号(字母、数字)" style="float: left"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addCodeRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!(字母、数字)</p>
+                    <p class="warn-info2 col-sm-4" ng-show="alphaDigit.show"><i class="glyphicon glyphicon-warning-sign"></i> 只允许数字、字母!</p>
+                    <p class="warn-info2 col-sm-4" ng-show="codeTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 编号过长!</p>
+                </div>
+                <div class="form-group">
+                    <label for="editCusName" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>账户名称：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="editCusName" required ng-model="cusName" ng-blur="editCusSmpName(cusName)" placeholder="请输入账户名称" style="float: left"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addNameRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                    <p class="warn-info2 col-sm-4" ng-show="nameTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 名称过长!</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCusPhone" class="col-sm-3 control-label">手机：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="editCusPhone" ng-model="cusPhone" ng-blur="editCusPhone(cusPhone)" placeholder="请输入手机号码"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addPhone.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+                </div>
+                <div class="form-group">
+                    <label for="editCusEmail" class="col-sm-3 control-label">邮箱：</label>
+                    <div class="col-sm-3">
+                        <input type="email" class="form-control" id="editCusEmail" ng-model="cusEmail" ng-blur="editCusEmail(cusEmail)" placeholder="请输入邮箱"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addEmail.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+                </div>
+                <div class="form-group">
+                    <label for="editCusAddress" class="col-sm-3 control-label">地址：</label>
+                    <div class="col-sm-3">
+                        <textarea rows="5" class="form-control text-describe" id="editCusAddress" ng-model="cusAddress" ng-blur="editCusAddr(cusAddress)" placeholder="请输入地址"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-right col-sm-6">
+                <div class="form-group">
+                    <label for="select11" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>客户：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="select11">
+                            <option value="{{cusId}}">{{cusCustomer}}</option>
+                            <option value="{{item.customerId}}" ng-repeat="item in cus_list">{{item.customerName}}</option>
+                        </select>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addCusIdRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><b class="required">*&nbsp;</b>产品目录：</label>
+                    <div class="col-sm-3">
+                        <!--<select class="form-control" id="select12" multiple>
+                            <option value="{{item.productCatalogId}}" ng-repeat="item in product_list">{{item.productCatalogName}}</option>
+                        </select>-->
+                        <table class="product-list">
+                            <tr ng-repeat="item0 in product_list">
+                                <td>
+                                    <input class="adc" type="checkbox" id="{{item0.productCatalogId}}" name="{{item0.productCatalogName}}" ng-checked="isSelected(item0.productCatalogId)" ng-click="updateSelection($event,item0.productCatalogId)"/>
+                                </td>
+
+                                <td class="product-name">
+                                    <label for="{{item0.productCatalogId}}" ng-bind="item0.productCatalogName" title="{{item0.productCatalogName}}"></label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--<p class="warn-info2 col-sm-4" ng-show="addProIdRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>-->
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><b class="required">*&nbsp;</b>启用账户：</label>
+                    <div class="col-sm-6">
+                        <input type="radio" name="active" value="1" ng-model="Active" id="active11"/>
+                        <label for="active11" class="col-sm-5 active">启用</label>
+
+
+                        <input type="radio" name="active" value="0"  ng-model="Active" id="active12"/>
+                        <label for="active12" class="col-sm-5 active">停用</label>
+                    </div>
+
+                    <p class="warnPro-info col-sm-3" ng-show="addProIdRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p> <!--//产品必填显隐-->
+
+                    <p class="warn-info2 col-sm-3" ng-show="addActiveRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <!--<label class="col-sm-4 control-label"></label>-->
+                <div class="col-sm-12">
+                    <div style="margin: 0 auto;width: 345px">
+                        <input type="button" id="cancel2" class="form-control btn btn-grey" ng-click="editCusAccountHide()" value="取消"/>
+                        <input type="button" id="save2" class="form-control btn btn-info" ng-click="editCusAccSave(cusCode,cusName,cusPhone,cusEmail,cusAddress,cusCustomer,Active)" value="保存"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--客户账号页新增-->
+    <div  class="edit_admin_section"  ng-hide="addCusAccList.show" id="addAdmin">
+        <form class="form-horizontal" role="form" id="addCustomerItem">
+            <div class="form-group">
+                <div class="col-sm-4">
+                    <div class="add_product" style="margin: 0" ng-click="addCusAccountHide()">
+                        <a><strong class="glyphicon glyphicon-arrow-left"></strong> 返回</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <strong>新增 - 客户账户</strong>
+                </div>
+                <div class="col-sm-4">
+                </div>
+            </div>
+            <div class="table-left col-sm-6">
+                <div class="form-group">
+                    <label for="addCustomerSmpName" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>账户编号：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="addCustomerSmpName" ng-blur="addCusName(Code)" ng-model="Code" placeholder="请输入账户编号(字母、数字)"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addCodeRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!(字母、数字)</p>
+                    <p class="warn-info2 col-sm-4" ng-show="alphaDigit.show"><i class="glyphicon glyphicon-warning-sign"></i> 只允许数字、字母!</p>
+                    <p class="warn-info2 col-sm-4" ng-show="codeTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 编号过长!</p>
+                </div>
+                <div class="form-group">
+                    <label for="addCustomerName" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>账户名称：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="addCustomerName" ng-blur="addCusSmpName(Name)" ng-model="Name" placeholder="请输入账户名称"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addNameRequired.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必填!</p>
+                    <p class="warn-info2 col-sm-4" ng-show="nameTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i> 名称过长!</p>
+                </div>
+                <div class="form-group">
+                    <label for="addCustomerPhone" class="col-sm-3 control-label">手机：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="addCustomerPhone" ng-blur="addCusPhone(Phone)" ng-model="Phone" placeholder="请输入手机号码"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addPhone.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+                </div>
+                <div class="form-group">
+                    <label for="addCustomerEmail" class="col-sm-3 control-label">邮箱：</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="addCustomerEmail" ng-blur="addCusEmail(Email)" ng-model="Email" placeholder="请输入邮箱"/>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addEmail.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误!</p>
+                </div>
+                <div class="form-group">
+                    <label for="addCustomerAddress" class="col-sm-3 control-label">地址：</label>
+                    <div class="col-sm-3">
+                        <textarea rows="5" class="form-control text-describe" id="addCustomerAddress" ng-blur="addCusAddr(Address)" ng-model="Address" placeholder="请输入地址"></textarea>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addAddr.show" style="top: 110px"><i class="glyphicon glyphicon-warning-sign"></i> 输入过长!</p>
+                </div>
+            </div>
+
+            <div class="table-right col-sm-6">
+                <div class="form-group">
+                    <label for="addCustomerAddress" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>客户：</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" id="select" ng-blur="addCus(customerId)" ng-model="customerId" >
+                            <option value="{{item.customerId}}" ng-repeat="item in cus_list">{{item.customerName}}</option>
+                        </select>
+                    </div>
+                    <p class="warn-info2 col-sm-4" ng-show="addCusIdRequired1.show"><i class="glyphicon glyphicon-warning-sign"></i> 此项必选!</p>
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                    <label for="addCustomerAddress" class="col-sm-3 control-label"><b class="required">*&nbsp;</b>产品目录：</label>
+                    <div class="col-sm-6" style="margin-bottom: -30px">
+                        <table class="product-list" >
+                            <tr ng-repeat="item in product_list">
+                                <td>
+                                    <input class="adc" type="checkbox" id="{{item.productCatalogId}}" name="{{item.productCatalogName}}" ng-checked="isSelected(item.productCatalogId)" ng-click="updateSelection($event,item.productCatalogId)"/>
+                                </td>
+
+                                <td class="product-name">
+                                    <label for="{{item.productCatalogId}}" ng-bind="item.productCatalogName" title="{{item.productCatalogName}}"></label>
+                                </td>
+                            </tr>
+                            <!--<pre id="selectPro">{{selected|json}}</pre>-->
+                        </table>
+                        <table>
+                            <tr>
+                                <p class="warn-info col-sm-6" ng-show="addProIdRequired.show" style="margin-bottom: 0;margin-top: -10px"><i class="glyphicon glyphicon-warning-sign"></i> 产品必选!</p> <!--//产品必填显隐-->
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+                <div class="form-group" style="height: 75px;">
+                    <label class="col-sm-3 control-label"><b class="required">*&nbsp;</b>启用账户：</label>
+                    <div class="col-sm-6">
+                        <div class="col-sm-12">
+                            <input type="radio" name="active" value="1" ng-model="Active" id="active1"/>
+                            <label for="active1" class="col-sm-4 active">启用</label>
+
+
+                            <input type="radio" name="active" value="0"  ng-model="Active" id="active2"/>
+                            <label for="active2" class="col-sm-4 active">停用</label>
+                        </div>
+                    </div>
+                    <p class="warn-info col-sm-3" ng-show="addActiveRequired.show" style="left: -257px;top: 25px"><i class="glyphicon glyphicon-warning-sign"></i> 启用必选!</p>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <!--<label class="col-sm-4 control-label"></label>-->
+                <div class="col-sm-12">
+                    <div style="margin: 20px auto 0;width: 345px;">
+                        <input type="button" id="cancel3" class="form-control btn btn-grey" ng-click="addCusAccountHide()" value="取消"/>
+                        <input type="button" id="save3" class="form-control btn btn-info" ng-click="addCusAccSave(Code,Name,Phone,Email,Address,customerId,Active)" value="保存"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+</body>
+</html>

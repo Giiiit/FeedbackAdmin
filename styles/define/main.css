@@ -1,0 +1,140 @@
+.select-head{
+    width: 1170px;
+    height: 45px;
+    margin: 0 20px;
+    border: 1px solid #cccccc;
+    background-color: #eeeeee;
+    z-index: 999;
+}
+.choose{
+    width: 100px;
+    margin: 5px;
+    float: left;
+}
+.choose select{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.choose-title{
+    width: 60px;
+    margin: 5px;
+    float: left;
+}
+
+.choose-confirm{
+    width: 50px;
+    height: 34px;
+    color: #FFFFFF;
+    border-radius: 4px;
+}
+.new-problem{
+    width: 1170px;
+    margin: 10px auto 0;
+    border: 1px solid #eeeeee;
+    background-color: #eeeeee;
+    border-radius: 4px;
+}
+.new-problem input, .new-problem textarea{
+    width: 100%;
+    margin: 10px auto;
+    border-radius: 4px;
+    float: left;
+}
+.new-problem textarea{
+    min-height: 150px;
+    max-height: 300px;
+    margin-bottom: 20px;
+}
+.new-problem thead p{
+    margin: 10px auto 0;
+}
+.submitBtn, .cancelBtn{
+    margin: 0;
+}
+#titleP, #titleP2{
+    margin-top: 20px;
+    padding: 0 15px;
+    border: 1px solid #cccccc;
+}
+
+.reply-item{
+    border: 1px solid #dddddd;
+    width: 1170px;
+    margin: 0 auto;
+}
+.reply-title{
+    width: 1170px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.reply-name{
+    width: 20%;
+    height: 150px;
+    line-height: 150px;
+    vertical-align: top;
+    background-color: #f5f5f5;
+}
+.reply-content{
+    padding: 20px;
+    text-align: left;
+    min-height: 100px;
+}
+.reply-time{
+    padding: 20px 20px 0 20px;
+    text-align: right;
+    color: #cccccc;
+}
+
+.table-head-problem{
+    padding-top: 15px;
+}
+.add_problem, .choose-confirm{
+    background-color: #5bc0de;
+    border: 1px solid #5bc0de;
+}
+.add_problem:hover, .choose-confirm:hover{
+    background-color: #55b0de;
+    border: 1px solid #55b0de;
+}
+.refresh_problem{
+    background-color: #cced46;
+}
+.refresh_problem:hover{
+    background-color: #c7e048;
+}
+.refresh_problem:active:hover{
+    background-color: #c7e048;
+}
+.add_problem, .refresh_problem{
+    width: 100px;
+    line-height: 30px;
+    margin: 2px 0 0 20px;
+    float: left;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.add_problem a, .refresh_problem a{
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+.readfalse{
+    color: #ff5f3a;
+}
+.readfalse:hover{
+    color: #e50a00;
+}
+
+.page-list .pagination {float:right; margin: 5px  0}
+.page-list .pagination span {cursor: pointer;}
+.page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+.page-list .pagination .separate span:hover {background: none;}
+.page-list .page-total {float:right; margin: 7px 20px;}
+.page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+.page-list .page-total input {width: 40px; padding-left:3px;}
+.page-list .page-total select {width: 50px;}

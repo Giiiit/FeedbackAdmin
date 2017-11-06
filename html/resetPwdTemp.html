@@ -1,0 +1,60 @@
+<div id="modal_addCustomer">
+    <form>
+        <table>
+            <thead>
+
+            <div id="myModalLabel2">
+                <p>修改密码</p>
+            </div>
+
+            <!--<button type="button"-->
+            <!--style="color: #727e8a; margin-top: -10px;">-->
+            <div id="close_modal">
+                <a ng-click="close_modal()"><span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+            <!--</button>-->
+            </thead>
+
+            <tbody ng-hide="updateSuccess.show">
+                <tr>
+                    <td class="tab_head"><b class="required">*&nbsp;</b>原密码：</td>
+                    <td><input type="text" id="old" ng-model="oldPwd" placeholder="请输入原密码"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head"><b class="required">*&nbsp;</b>新密码：</td>
+                    <td><input type="password" id="new" ng-model="newPwd" placeholder="请输入新密码"></td>
+                </tr>
+                <tr>
+                    <td class="tab_head"><b class="required">*&nbsp;</b>新密码确认：</td>
+                    <td><input type="password" id="newCMT" ng-model="commitPwd" placeholder="请再次输入新密码"></td>
+                </tr>
+            </tbody>
+
+            <tbody ng-show="updateSuccess.show">
+            <tr>
+                <td class="tab_info">修改成功！请重新登录！</td>
+
+            </tr>
+            <tr>
+                <td class="tab_time">2秒后跳转至登录页！</td>
+
+            </tr>
+            </tbody>
+
+        </table>
+
+        <!--<div class="warn-info tempWarn-info" ng-show="pwdRequired.show"><i class="glyphicon glyphicon-warning-sign"></i>全部必填!</div>-->
+        <div class="warn-info tempWarn-info2" ng-show="alphaDigit.show"><i class="glyphicon glyphicon-warning-sign"></i>仅限数字、字母!</div>
+        <div class="warn-info tempWarn-info2" ng-show="codeTooLong.show"><i class="glyphicon glyphicon-warning-sign"></i>密码过长! 不能超过32位！</div>
+        <div class="warn-info tempWarn-info2" ng-show="pwdRepeat.show"><i class="glyphicon glyphicon-warning-sign"></i> {{responseInfo}}</div>
+
+        <div class="addBtn"  ng-hide="updateSuccess.show">
+            <input type="submit" ng-click="restPassword()" class="btn btn-info" value="保存"/>
+        </div>
+
+        <div class="addBtn"  ng-show="updateSuccess.show">
+            <input type="submit" ng-click="logOut()" class="btn btn-info" value="重新登录"/>
+        </div>
+    </form>
+
+</div>

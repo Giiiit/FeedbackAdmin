@@ -1,0 +1,75 @@
+*{
+    font-family: "Helvetica Neue","Microsoft Yahei", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    color: #727e8a;
+}
+body,section{
+    background-color: #f0f0f0;
+}
+.red_e59{
+    color: #333;
+}
+.green{
+    color: #03d708;
+}
+
+/*查看详情按钮*/
+.detail_link{
+    text-decoration: none;
+    color: #7bb3fe;
+}
+.detail_link:hover{
+    text-decoration: none;
+    color: #2c86fe;
+}
+/*面包屑导航右侧按钮*/
+.btn-empty-red{
+    float: right;
+    width: 104px;
+    height: 36px;
+    line-height: 32px;
+}
+.btn-empty-red  a{
+    display: block;
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+.btn-empty-red a:hover{
+    color: #FFFFFF;
+    background-color: #333;
+}
+.add_link{
+    width: 104px;
+    text-align: center;
+}
+
+/*详情顶部文字*/
+.time{
+    color: #aec0d6;
+}
+
+
+.paging{
+    width: 1190px;
+    height: 120px;
+    margin: 0 auto 40px;
+    padding: 40px;
+    background-color: #FFFFFF;
+}
+.paging ul.pagination{
+    height: 40px;
+    margin: 0;
+    position: absolute;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color: #333;
+    border-color: #333;
+}
+.pagination > li > a, .pagination > li > a:hover {
+    color: #777777;
+}

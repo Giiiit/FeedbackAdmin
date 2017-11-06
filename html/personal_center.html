@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="../styles/lib/bootstrap.css"/>
+    <link rel="stylesheet" href="../styles/define/index.css"/>
+    <link rel="stylesheet" href="../styles/define/modals.css"/>
+    <script src="../js/lib/angular.js"></script>
+    <script src="../js/lib/angular-ui-router.min.js"></script>
+    <script src="../js/lib/ui-bootstrap-tpls.js"></script>
+    <script src="../js/lib/angular-cookies.js"></script>
+
+    <script src="../js/controllers/my_center.js"></script>
+    <script src="../js/controllers/index.js"></script>
+
+    <script src="../js/service/configure.js"></script>
+    <script src="../js/service/account.js"></script>
+    <script src="../js/service/login.js"></script>
+    <title>客户问题反馈平台</title>
+</head>
+<body ng-app="personalCenter"  ng-controller="personalCenterController">
+
+    <nav class="navbar" role="navigation">
+        <div id="nav-content">
+            <div class="navbar-header col-sm-5">
+                <a id="admin_logo" href="javascript:void(0)" class="navbar-brand "></a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav col-sm-7">
+                    <li ng-hide="adminNav.show"><a href="product_manage.html">产品</a></li>
+                    <li ng-hide="adminNav.show"><a href="customer_manage.html">客户管理</a></li>
+                    <li ng-hide="adminNav.show" ng-mouseenter="accManageToggle()" ng-mouseleave="accManageToggle2()">
+                        <a class="pointer"><i>账户管理</i> <b class="caret"></b></a>
+                        <ul class="dropdown"  ng-show="accManage.show" ng-mouseleave="accManageToggle2()">
+                            <li ng-click="toCusAccount()"><a>客户账户</a></li>
+                            <li ng-click="toAdmAccount()"><a>售后账户</a></li>
+                        </ul>
+                    </li>
+                    <li id="myCenter" ng-mouseenter="logOutToggle()" ng-mouseleave="logOutToggle2()">
+                        <a ng-click="toMyCenter()" class="pointer" id="thisclass" title="{{username}}"><i ng-bind="username"></i> <b class="caret"></b></a>
+                        <ul class="dropdown"  ng-show="logOutPanel.show" ng-mouseleave="logOutToggle2()">
+                            <li><a ng-click="logOut()">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <div class="admin-list-section"  ng-hide="MyPage.show">
+
+            <div id="product_list" class="container-fluid">
+
+                <!--个人顶部-->
+                <div class="table-head">
+                    <div class="add_product" ng-click="editMyShow()">
+                        <a><strong class="glyphicon glyphicon-edit"></strong> 编辑</a>
+                    </div>
+                    <div class="refresh_product" ng-click="refreshProduct()">
+                        <a><strong class="glyphicon glyphicon-refresh"></strong> 刷新</a>
+                    </div>
+                </div>
+
+                <!--个人信息-->
+                <form class="form-horizontal" role="form" id="editMyItem">
+                    <div class="form-group"><strong>我的信息</strong></div>
+                    <div class="form-group">
+                        <p for="myName" class="col-sm-4 control-label">名称：</p>
+                        <div class="col-sm-4">
+                            <p class="my-info" id="myName" ng-bind="myInfo.userName" title="{{myInfo.userName}}"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p for="myPhone" class="col-sm-4 control-label">电话：</p>
+                        <div class="col-sm-4">
+                            <p class="my-info" id="myPhone" ng-bind="myInfo.userPhone" title="{{myInfo.userPhone}}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p for="myEmail" class="col-sm-4 control-label">邮箱：</p>
+                        <div class="col-sm-4">
+                            <p class="my-info" id="myEmail" ng-bind="myInfo.userEmail" title="{{myInfo.userEmail}}"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p for="myAddress" class="col-sm-4 control-label">地址：</p>
+                        <div class="col-sm-4">
+                            <p class="my-info text-describe" id="myAddress" ng-bind="myInfo.userAddress" title="{{myInfo.userAddress}}"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="col-sm-4 control-label"></p>
+                        <div class="col-sm-4">
+                            <input type="button" class="form-control btn btn-info" ng-click="resetPwd()" value="修改密码"/>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-foot"></div>
+            </div>
+        </div>
+        <!--编辑个人联系方式-->
+        <div  class="edit_admin_section"  ng-show="MyPage.show">
+            <form class="form-horizontal" role="form" id="editProductItem">
+                <div class="form-group"><strong>编辑联系方式</strong></div>
+                <div class="form-group">
+                    <label for="editMyPhone" class="col-sm-4 control-label">电话：</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="editMyPhone" ng-model="myPhone" ng-blur="editMyPhone(myPhone)" placeholder="请输入电话" style="float: left"/>
+                    </div>
+                    <p class="warn-info col-sm-4" ng-show="addPhone.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误! 避免过长!</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="editMyEmail" class="col-sm-4 control-label">邮箱：</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="editMyEmail" ng-model="myEmail" ng-blur="editMyEmail(myEmail)" placeholder="请输入邮箱"/>
+                    </div>
+                    <p class="warn-info col-sm-4" ng-show="addEmail.show"><i class="glyphicon glyphicon-warning-sign"></i> 输入格式错误! 避免过长!</p>
+                </div>
+                <div class="form-group">
+                    <label for="editMyAddress" class="col-sm-4 control-label">地址：</label>
+                    <div class="col-sm-4">
+                        <textarea rows="5" class="form-control text-describe" id="editMyAddress" ng-model="myAddr" placeholder="请输入地址"></textarea>
+                    </div>
+                </div>
+                <!--<div class="col-sm-12 warn-info myWarn-info" ng-show="info.show"><i class="glyphicon glyphicon-warning-sign"></i>{{responseInfo}}</div>-->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"></label>
+                    <div class="col-sm-4">
+                        <input type="button" id="cancel2" class="form-control btn btn-grey" ng-click="editMyHide()" value="取消"/>
+                        <input type="button" id="save2" class="form-control btn btn-info" ng-click="editSaveMy(myPhone,myEmail,myAddr)" value="保存"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </section>
+
+</body>
+</html>

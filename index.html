@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>
+<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/logo.jpg" type="image/x-icon"/>
+    <link rel="stylesheet" href="styles/lib/bootstrap.css"/>
+
+    <link rel="stylesheet" href="styles/define/define_param.css"/>
+    <link rel="stylesheet" href="styles/define/index.css"/>
+    <link rel="stylesheet" href="styles/define/modals.css"/>
+    <!--<link rel="stylesheet" href="styles/define/style.css"/>-->
+    <!--<link rel="stylesheet" href="styles/define/body.css"/>
+    <link rel="stylesheet" href="styles/define/navbar.css"/>
+    <link rel="stylesheet" href="styles/define/customer_list.css"/>-->
+
+    <script src="js/lib/angular.js"></script>
+    <script src="js/lib/angular-ui-router.min.js"></script>
+    <script src="js/lib/angular-cookies.js"></script>
+    <script src="js/lib/ui-bootstrap-tpls.js"></script>
+
+    <script src="js/service/configure.js"></script>
+    <script src="js/service/login.js"></script>
+    <script src="js/service/product.js"></script>
+
+    <script src="js/controllers/index.js"></script>
+    <script src="js/controllers/admin_product.js"></script>
+    <!--<script src="js/controllers/admin.js"></script>-->
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta name="description" content="">-->
+    <title>客户问题反馈平台</title>
+
+</head>
+<body style="overflow: hidden;background-image: url('images/login_bg.jpg');" ng-controller="AppController">
+
+<div ui-view></div>
+
+</body>
+</html>
